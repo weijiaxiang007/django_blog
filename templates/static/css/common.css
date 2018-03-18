@@ -1,0 +1,241 @@
+/* base.html */
+*{
+    margin: 0;
+    padding: 0;
+}
+html,body{
+    height: 100%;
+}
+
+body {
+    background-color: #1A1F24;
+}
+
+#container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+header{
+    flex: 0 0 auto;
+}
+.main{
+    padding-top: 80px;
+    padding-bottom: 30px;
+    flex: 1 0 auto;
+}
+footer{
+    background: #0f0f0f;
+    flex: 0 0 auto;
+}
+
+/*index.html*/
+div.head-type {
+    background-image: url('../img/picture.jpg');
+}
+
+h2.head-font {
+    color: white;
+}
+
+p.head-font {
+    color: white;
+    font-size: 15px;
+}
+
+ul.blog-types {
+    list-style-type: none!important;
+}
+
+strong.head-font {
+    font-size: large;
+    font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+    margin-left: 10px;
+}
+
+div.blog h3 {
+    margin-bottom: 0.5em;
+    padding-bottom: 0.8em;
+    padding-top: 0.5em;
+    border-top: 2px solid rgba(166, 176, 245, 0.55);
+}
+
+div.p.blog-info {
+    margin-bottom: 0;
+}
+
+span.blog-label {
+    margin-left: 3px;
+    margin-right: 20px;
+}
+
+.blog-info-header {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.blog-info-footer-1 {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.blog-info-footer-2 {
+    position: absolute;
+    right: 70px;
+    bottom: 0;
+}
+
+/*article.html*/
+ul.blog-info-description {
+    list-style-type: none;
+    margin-bottom: 2em;
+}
+
+ul.blog-info-description li{
+    display: inline-block;
+    margin-top: 1em;
+    margin-right: 2em;
+}
+
+div.blog-content p{
+    text-indent: 2em;
+}
+
+div.blog-more {
+    margin-top: 80px;
+    margin-bottom: 100px;
+}
+
+div.blog-view {
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 50px;
+}
+
+/*返回顶部*/
+p#back-to-top{
+            position:fixed;
+            bottom:40px;
+            right:100px;
+        }
+p#back-to-top a{
+            text-align:center;
+            text-decoration:none;
+            color:#000;
+            display:block;
+            width:100px;
+            /*使用CSS3中的transition属性给跳转链接中的文字添加渐变效果*/
+            -moz-transition:color1s;
+            -webkit-transition:color1s;
+            -o-transition:color1s;
+        }
+p#back-to-top a:hover{
+            color:#000011;
+        }
+p#back-to-top a span{
+            background-color:#ffffff;
+            z-index: -100;
+            border: 1px solid #cccccc;
+            border-radius:6px;
+            display:block;
+    padding-top: 16px;
+            height:100px;
+            width:100px;
+            margin-bottom:0px;
+            /*使用CSS3中的transition属性给<span>标签背景颜色添加渐变效果*/
+            -moz-transition:background1s;
+            -webkit-transition:background1s;
+            -o-transition:background1s;
+        }
+#back-to-top a:hover span{
+            background-color:#f0f0f0;
+        }
+
+
+
+/*comment.html*/
+.bootstrap-frm {
+    margin-left:auto;
+    margin-right:auto;
+
+    background: #FFF;
+    padding: 20px 20px 20px 20px;
+    font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #888;
+    text-shadow: 1px 1px 1px #FFF;
+    border:1px solid #DDD;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    }
+.bootstrap-frm h1 {
+    font: 25px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: 0px 0px 10px 40px;
+    display: block;
+    border-bottom: 1px solid #DADADA;
+    margin: -10px -30px 30px -30px;
+    color: #888;
+    }
+.bootstrap-frm h1>span {
+    display: block;
+    font-size: 11px;
+    }
+.bootstrap-frm label {
+    display: block;
+    margin: 0px 0px 5px;
+    }
+.bootstrap-frm label>span {
+    float: left;
+    width: 20%;
+    text-align: right;
+    padding-right: 10px;
+    margin-top: 10px;
+    color: #333;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    }
+.bootstrap-frm input[type="text"], .bootstrap-frm input[type="email"], .bootstrap-frm textarea, .bootstrap-frm select{
+    border: 1px solid #CCC;
+    color: #888;
+    height: 30px;
+    line-height:15px;
+    margin-bottom: 5px;
+    margin-right: 6px;
+    margin-left: 16px;
+    margin-top: 2px;
+    outline: 0 none;
+    padding: 5px 0px 5px 5px;
+    width: 90%;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    }
+.bootstrap-frm textarea{
+    height:100px;
+    padding: 5px 0px 0px 5px;
+    width: 90%;
+    }
+.bootstrap-frm .button {
+    background: #FFF;
+    border: 1px solid #CCC;
+    padding: 10px 40px 10px 40px;
+    color: #333;
+    margin-left: 80%;
+    border-radius: 4px;
+    }
+.bootstrap-frm .button:hover {
+    color: #333;
+    background-color: #EBEBEB;
+    border-color: #ADADAD;
+    }
+
+ul li.comment {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-bottom:10px;
+    border-bottom: 2px solid rgba(166, 176, 245, 0.55);
+}

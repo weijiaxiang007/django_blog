@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>{{ article.title }}</title>
+{% endblock %}
+
+{% block style %}
+    <link href='{% static 'css/praise.css' %}' rel="stylesheet">
+    <style>
+        body{
+            background-image: url("{% static 'img/fire.jpg' %}");
+            background-repeat:no-repeat;
+            background-attachment:fixed;
+            background-position:center;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-md-10 col-lg-10 blog-view">
+                <h3>{{ article.title }}</h3>
+                <ul class="blog-info-description">
+                    <li>作者：{{ article.author }}</li>
+                    <li>分类：<a href="{% url 'category' article.category_id %}">{{ article.category }}</a></li>
+                    <li>发表日期：{{ article.created_time|date:"Y-m-d H:n:s" }}</li>
+                    <li class="art-view"><img src="{% static 'img/views.png' %}">：{{ article.views }}</li>
+                </ul>
+                <p class="blog-content">{{ article.content | safe }}</p>
+                <div class="blog-more">
+                    {% if previous_blog %}
+                        <p>上一篇 :<a href="{% url 'article' previous_blog.pk %}">{{ previous_blog.title }}</a></p>
+                    {% else %}
+                        <p></p>
+                    {% endif %}
+                    {% if next_blog %}
+                        <p>下一篇 :<a href="{% url 'article' next_blog.pk %}">{{ next_blog.title }}</a></p>
+                    {% else %}
+                        <p></p>
+                    {% endif %}
+                </div>
+                <div style="text-align: center">喜欢就点个赞吧～</div>
+                <div class="praise">
+                    <span id="praise"><img src="{% static 'img/likes.png' %}" id="praise-img" /></span>
+                    <span id="praise-txt">{{ article.likes }}</span>
+                    <span id="add-num"><em>+1</em></span>
+                </div>
+                {#评论区#}
+                {% include 'comment.html' %}
+            </div>
+        </div>
+    </div>
+    <p id="back-to-top">
+        <a href="#top">
+            <span><i class="fa fa-chevron-up" aria-hidden="true">
+                <img src="{% static 'img/top.png' %}">
+            </i></span>
+        </a>
+    </p>
+
+<script>
+	/* @author:Romey
+	 * 动态点赞
+	 * 此效果包含css3，部分浏览器不兼容（如：IE10以下的版本）
+	*/
+	$(function(){
+		$("#praise").click(function(){
+			var praise_img = $("#praise-img");
+			var text_box = $("#add-num");
+			var praise_txt = $("#praise-txt");
+			var num=parseInt(praise_txt.text());
+			if(praise_img.attr("src") == ("{% static 'img/likes1.png' %}")){
+				$(this).html("<img src='{% static 'img/likes.png' %}' id='praise-img' class='animation' />");
+				praise_txt.removeClass("hover");
+				text_box.show().html("<em class='add-animation'>-1</em>");
+				$(".add-animation").removeClass("hover");
+				num -=1;
+				praise_txt.text(num)
+			}else{
+				$(this).html("<img src='{% static 'img/likes1.png' %}' id='praise-img' class='animation' />");
+				praise_txt.addClass("hover");
+				text_box.show().html("<em class='add-animation'>+1</em>");
+				$(".add-animation").addClass("hover");
+				num +=1;
+				praise_txt.text(num)
+			}
+		});
+	})
+</script>
+<script>
+    $(function(){
+        $('#praise').click(function(){
+            var praise_img = $("#praise-img");
+
+            if(praise_img.attr("src") == ("{% static 'img/likes1.png' %}")){
+                $.ajax({
+                    type: "GET",
+                    data: {"op":"add"},
+                    url: "{% url 'like' article.pk %}",
+                    cache: false,
+                    dataType: "html"
+                });
+            }else{
+                $.ajax({
+                    type: "GET",
+                    data: {"op":"sub"},
+                    url: "{% url 'like' article.pk %}",
+                    cache: false,
+                    dataType: "html"
+                });
+            }
+        });
+    })
+</script>
+
+{% endblock %}

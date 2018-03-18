@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    <style>
+        body{
+            background-image: url("{% static 'img/fire.jpg' %}");
+            background-repeat:no-repeat;
+            background-attachment:fixed;
+            background-position:center;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}
+    <title>kiosk的博客</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="col-sm-11 col-md-11 col-lg-11">
+            <div class="jumbotron  head-type">
+                <div class="container">
+                <h2 class="head-font">Kiosk</h2>
+                <p class="head-font">kiosk make kiosk everywhere | Kiosk的目标是到处都是kiosk，嗯！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                {% block panel_style %}<div class="panel panel-default panel-warning">{% endblock %}
+                <div class="panel-heading">
+                    <h3>{%  block head%}我的博客{% endblock %}</h3>
+                </div>
+                <div class="panel-body">
+                    <blockquote class="blockquote-reverse">
+                        {#       取分页器中的变量以获得所有的文章数量       #}
+                        <small>一共有{{ article_list.paginator.count }}篇博客 </small>
+                    </blockquote>
+                    {% for article in article_list %}
+                        <div class="blog">
+                            <h3><a href="{% url 'article' article.pk %}">{{ article.title }}</a></h3>
+                            <p class="blog-info">
+                                <span class="glyphicon glyphicon-folder-open blog-label">：{{ article.category }}</span>
+                                <span class="glyphicon glyphicon-time blog-label">：{{ article.created_time|date:'Y-m-d' }}</span>
+                            </p>
+                            <p>{{ article.content | truncatechars:120|striptags }}</p>
+                            <p class="blog-info-header">
+                                <span class="glyphicon glyphicon-thumbs-up blog-info-footer-1">：{{ article.likes }}</span>
+                                <span class="glyphicon glyphicon-eye-open blog-info-footer-2">：{{ article.views }}</span>
+                            </p>
+                        </div>
+                    {% empty %}
+                        <div class="blog">
+                            <h3>--- 暂无博客，敬请期待 ---</h3>
+                        </div>
+                    {% endfor %}
+
+                </div>
+                </div>
+            </div>
+            <div class="hidden-xs hidden-sm col-md-4 col-lg-4">
+                {% if index == 'yes' %}
+                    <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong class="head-font">Kiosk's</strong>
+                    </div>
+                    <div class="panel-body">
+                        <p>用<b>Python</b>郑重地写下一行“Hello World”<p>
+                        <p style="text-align: center"><img src="{% static 'img/GitHub.png' %}"><span style="margin-left: 20px"><a href="https://github.com/weijiaxiang007">Weijiaxiang007@Github</a></span></p>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        博客分类
+                    </div>
+                    <div class="panel-body">
+                        <ul class="blog-types">
+                            {% for category in category_list %}
+                                <li><a href="{% url 'category' category.id %}">{{ category.category }} <span class="badge">{{ category.count }}</span></a></li>
+                            {% empty %}
+                                <li>暂无分类</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        日期归档
+                    </div>
+                    <div class="panel-body">
+                       <ul class="blog-types">
+                           {% for blog_date in date_list %}
+                               <li><a href="{% url 'date' blog_date.year blog_date.month %}">
+                                   {{ blog_date|date:'Y年m月' }}
+                               </a></li>
+                           {% endfor %}
+                       </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <nav style="text-align: center" aria-label="Page navigation">
+                <ul class="pagination pagination-lg">
+                    <li>
+                        {% if article_list.has_previous %}
+                            {% if search %}
+                                <a href="?search_for={{ search_for }}&amp;page={{ article_list.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% else %}
+                                <a href="?page={{ article_list.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <span aria-hidden="true">&laquo;</span>
+                        {% endif %}
+                    </li>
+                    {% for page_num in page_range %}
+                        {% if page_num == article_list.number %}
+                            <li class="active"><span>{{ page_num }}</span></li>
+                        {% else %}
+                            {% if page_num == '...' %}
+                                <li><span>{{ page_num }}</span></li>
+                            {% else %}
+                                {% if search %}
+                                    <li><a href="?search_for={{ search_for }}&amp;page={{ page_num }}">{{ page_num }}</a></li>
+                                {% else %}
+                                    <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    <li>
+                        {% if article_list.has_next %}
+                            <a href="?page={{ article_list.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        {% else %}
+                            <span aria-hidden="true">&raquo;</span>
+                        {% endif %}
+                    </li>
+                </ul>
+                <p style="font-size: 12px;color: white">当前是{{ article_list.number }}页,共有{{ last_page }}页</p>
+            </nav>
+        </div>
+    </div>
+{% endblock %}

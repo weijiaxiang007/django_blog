@@ -1,0 +1,80 @@
+{% load static %}
+
+<div class="col-sm-10 col-md-10 col-lg-10 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+    <div class="panel panel-default panel-warning">
+        <div class="panel-heading">
+            <h3>评论区</h3>
+        </div>
+        <div class="panel-body">
+            {% for comment in comment_list %}
+                <ul class="media-list">
+                    <li class="media comment">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="{% static 'img/header.png' %}">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{ comment.user_name }}</h4>
+                            {{ comment.body }}
+                        </div>
+                    </li>
+                </ul>
+            {% empty %}
+                <div class="blog">
+                    <h3></h3>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <form id="comment_form" class="bootstrap-frm">
+        {% csrf_token %}
+        <h1>评论留言</h1>
+        <label for="id_body">
+            <textarea id="id_body" name="body" placeholder="Send Message To Me"></textarea>
+        </label>
+        <p style="margin-left: 30px" id="body_error"></p>
+        <label for="id_user_name" class="input-group" style="width: 50%">
+            <input id="id_user_name" type="text" class="form-control" placeholder="请输入姓名" aria-describedby="basic-addon2">
+        </label>
+        <span id="name_error"></span>
+        <button class="button" type="submit" id="submit">提交</button>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $.ajaxSetup({
+                 data: {csrfmiddlewaretoken: '{{ csrf_token }}' }
+            });
+        $('#comment_form').submit(function(){
+                var body = $("#id_body").val();                 //获得form中用户输入的name 注意这里的id_name 与你html中的id一致
+                var user_name = $("#id_user_name").val();    //同上
+
+                $.ajax({
+                    type:"POST",
+                    data: {body:body, user_name:user_name},
+                    url: "{% url 'comment' article.pk %}", //后台处理函数的url 这里用的是static url 需要与urls.py中的name一致#}
+                    cache: false,
+                    dataType: "html",
+                    success: function(result, statues, xml) {
+                        if (result) {
+                            var jsonData = JSON.parse(result);
+                            $("#body_error").html(jsonData['body_error']);
+                            $("#name_error").html(jsonData['username_error'])
+                        }else{
+                            $("#id_body").val("Send Message To Me");
+                            $('#id_user_name').val('请输入名字')
+                            window.location.reload()   //提交表单后强行刷新页面
+                        }
+                    },
+                    error: function(result){
+                        alert(result);
+                    }
+                });
+                return false;
+            });
+
+        });
+</script>

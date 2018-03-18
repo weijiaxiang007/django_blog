@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>kiosk的博客</title>
+{% endblock %}
+
+{% block style %}
+    <link href='{% static 'css/soul.css' %}' rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/lottie.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                <div id="bm"></div>
+            </div>
+            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7" style="margin-top: 100px">
+                <figure class="l-col-left soul-wrap" role="img" aria-label="Currently, the web is all system, no soul. (Jason Pamental)">
+                    <div class="soul" aria-hidden="true">
+                        <span class="soul__ldquo">“</span>
+                        <span class="soul__currentl">Welcome</span>
+                        <span class="soul__y">&nbsp;To</span>
+                        <span class="soul__web">my website</span>
+                        <span class="soul__is">
+                            <span>is</span>
+                        </span>
+                        <span class="soul__all">
+                            <span>A<span zw> </span>L<span zw> </span>L</span>
+                        </span>
+                        <span class="soul__system">
+                        <span>S<span zw> </span>Y<span zw> </span>S<span zw> </span>T<span zw>
+                        </span>E<span zw> </span>M</span></span>
+                        <span class="soul__no-soul"><span>no</span> <span>soul</span></span>
+                        <span class="soul__rdquo">„</span>
+                        <span class="soul__jason">- John Kiosk</span>
+                    </div>
+                </figure>
+            </div>
+        </div>
+    </div>
+    <script>
+        var animation = bodymovin.loadAnimation({
+            container: document.getElementById('bm'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: '{% static 'data.json' %}'
+        });
+
+
+        animation.playSegments([[0,39],[40,206]],true);
+    </script>
+{% endblock %}
